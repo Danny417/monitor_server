@@ -31,6 +31,12 @@ app.get('/', function(req, res){
   res.render('index.ejs', {"nodes" :nodes});
 });
 
+app.get('/test', function(req, res){
+  nodes[1].name = "Danny";
+  io.emit('nodenamechange', nodes);
+  res.render('index.ejs', {"nodes" :nodes});
+});
+
 io.on('connection', function(socket){
   console.log('a user connected');
 });
