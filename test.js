@@ -1,4 +1,5 @@
-var app = require('express')(),
+var express = require('express'),
+    app = express(),
     path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -23,6 +24,8 @@ var nodes = [
 
 app.set('view_engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 app.get('/', function(req, res){
   res.render('index.ejs', {"nodes" :nodes});
