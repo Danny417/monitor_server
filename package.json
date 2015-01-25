@@ -1,0 +1,18 @@
+{
+	"name": "monitor_service",
+	"dependencies": {
+		"express": "*",
+		"socket.io": "^1.2.0",
+		"ejs" : "*"
+	},
+	"engine": "node v0.10.32",
+	"description": "",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"script" : {
+		"start": "node app"
+	}
+}
