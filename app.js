@@ -37,6 +37,10 @@ app.get('/test', function(req, res){
   res.render('index.ejs', {"nodes" :nodes});
 });
 
+app.get('/team', function(req, res){
+  res.render('team.ejs');
+});
+
 io.on('connection', function(socket){
   console.log('a user connected');
 });
