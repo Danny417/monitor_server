@@ -39,14 +39,20 @@
 				</div>
 			</div>
 			<table id="statusTable" class="table table-striped table-hover" ng-controller="nodeCtrl">
-				<tr>
-					<th>Node name</th>
-					<th>Status</th>
+
+				<tr ng-repeat="node in nodeList">
+					<td>{{ node.name }}</td>
+					<td ng-if="node.status == 'ok'">
+            <img src="public/img/ok-18.png" alt="ok">
+          </td>
+          <td ng-if="node.status == 'warning'">
+            <img src="public/img/warning-16.png" alt="warning">
+          </td>
+          <td ng-if="node.status == 'error'">
+            <img src="public/img/error-16.png" alt="error">
+          </td>
 				</tr>
-				<tr ng-repeat="nod in nodeList">
-					<td>{{nod.name}}</td>
-					<td>{{nod.status}}</td>
-				</tr>
+
 			</table>
 			<div class="row">
 				<div class="col-md-4">
@@ -64,7 +70,6 @@
 					</div>
 				</div>
 				<div class="col-md-8">
-					<iframe width='100%' height='500px' frameBorder='0' src='https://a.tiles.mapbox.com/v4/isha.l124ldkl/attribution.html?access_token=pk.eyJ1IjoiaXNoYSIsImEiOiJ2T3ZUS0RRIn0.-n9lle8SZBkLLbxFkiJ52w'></iframe>
 				</div>
 			</div>
 		</div>
@@ -81,7 +86,8 @@
 					scope.nodeList = events;
 				});
 			});
-			
+			var test = <%- JSON.stringify(nodes) %>;
+
 			var app = angular.module('app', []);
 			app.controller('nodeCtrl', function($scope, $log) {
 				$scope.nodeList = <%- JSON.stringify(nodes) %>;
