@@ -9,16 +9,24 @@
       <% include partials/navbar %>
 			<div id="data_map" style="width: 100%; height: 500px;"></div>
 			<table id="statusTable" class="table table-striped table-hover" ng-controller="nodeCtrl">
-
+				<tr>
+					<th>Host Name</th>
+					<th>IP</th>
+					<th>Status</th>
+					<th>Available Space</th>
+					<th>Uptime</th>
+					<th>Average Load</th>
+				</tr>
 				<tr ng-repeat="node in nodeList">
-					<td>{{ node.name }}</td>
-					<td ng-if="node.status == 'ok'">
+					<td>{{ node.hostname }}</td>
+					<td>{{ node.ip }}</td>
+					<td ng-if="node.status == 'online'">
 						<img src="public/img/ok-18.png" alt="ok">
 					  </td>
 					  <td ng-if="node.status == 'warning'">
 						<img src="public/img/warning-16.png" alt="warning">
 					  </td>
-					  <td ng-if="node.status == 'error'">
+					  <td ng-if="node.status == 'offline'">
 						<img src="public/img/error-16.png" alt="error">
 					  </td>
 				</tr>
@@ -35,11 +43,13 @@
 			var socket = io();
 			var nodes = <%- JSON.stringify(nodes) %>;
 			var map;
-			socket.on('nodenamechange', function(newNode) {			
-				setTimeout(function () {
-					nodes[newNode.ip].overlay.setMap(null);
-					nodes[newNode.ip].overlay = null;
-				}, 3000);
+			socket.on('nodenamechange', function(newNode) {	
+				if(!nodes[newNode.ip]) {
+					setTimeout(function () {
+						nodes[newNode.ip].overlay.setMap(null);
+						nodes[newNode.ip].overlay = null;
+					}, 3000);
+				}
 				nodes[newNode.ip] = newNode;
 				drawNode(newNode);
 				var scope = angular.element($('#statusTable')).scope();

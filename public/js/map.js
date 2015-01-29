@@ -45,7 +45,7 @@ function SVGOverlay(latlon, status, map) {
 	this.map_ = map;
 	this.div_ = null;
 	switch(status) {
-		case 'failboot':
+		case 'offline':
 			this.color = 'B1020B';
 			break;
 		case 'warning':

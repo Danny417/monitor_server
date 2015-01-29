@@ -3,7 +3,8 @@
 	"dependencies": {
 		"express": "*",
 		"socket.io": "^1.2.0",
-		"ejs" : "*"
+		"ejs" : "*",
+		"bl" : "*"
 	},
 	"engine": "node v0.10.32",
 	"description": "",
