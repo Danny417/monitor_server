@@ -6,14 +6,16 @@
 		"ejs" : "*",
 		"bl" : "*"
 	},
-	"engine": "node v0.10.32",
+	"engines": {
+		"node" : "0.10.32"
+	},
 	"description": "",
 	"version": "0.0.1",
 	"repository": {
 		"type": "git",
 		"url": ""
 	},
-	"script" : {
-		"start": "node app"
+	"scripts" : {
+		"start": "node app.js"
 	}
 }
