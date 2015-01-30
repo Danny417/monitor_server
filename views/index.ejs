@@ -19,7 +19,7 @@
 					<th>Average Load</th>
 					<th>Node Location</th>
 				</tr>
-				<tr ng-repeat="node in nodeList">
+				<tr ng-repeat="node in nodeList" ng-class="{'danger':(node.status=='offline')}">>
 					<td>{{ node.hostname }}</td>
 					<td>{{ node.ip }}</td>
 					<td ng-if="node.status == 'online'">
@@ -57,8 +57,11 @@
 						nodes[newNode.ip].overlay = null;
 					}, 3000);
 				}
+				var status = nodes[newNode.ip].status;
 				nodes[newNode.ip] = newNode;
-				drawNode(newNode);
+				if(status === "offline" && newNode.status === "offline") {
+					drawNode(newNode);
+				}
 				var scope = angular.element($('#statusTable')).scope();
 				scope.$apply(function() {
 					scope.nodeList[newNode.ip] = newNode;
