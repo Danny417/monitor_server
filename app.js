@@ -7,7 +7,6 @@ var io = require('socket.io')(server);
 var bl = require('bl');
 var dgram = require('dgram');
 var udpServer = dgram.createSocket('udp4');
-
 var nodes = {	
 };
 
@@ -24,6 +23,32 @@ app.get('/team', function(req, res){
   res.render('team.ejs');
 });
 
+app.post('/stopAll', function(req, res) {
+	for(var key in nodes) {
+		var buf = new Buffer("exit service");
+		udpServer.send(buf, 0, buf.length, 7777, key);
+	}
+	console.log('stop signal sent');
+	res.send("complete");
+});
+
+app.post('/startAll', function(req, res) {
+	for(var key in nodes) {
+		var buf = new Buffer("start service");
+		udpServer.send(buf, 0, buf.length, 7777, key);
+	}
+	console.log('start signal sent');
+	res.send("complete");
+});
+
+app.post('/pauseAll', function(req, res) {
+	for(var key in nodes) {
+		var buf = new Buffer("stop service");
+		udpServer.send(buf, 0, buf.length, 7777, key);
+	}
+	console.log('pause signal sent');
+	res.send("complete");
+});
 server.listen((process.env.PORT || 80), function(){
   console.log('listening on *:'+process.env.PORT);
 });
@@ -62,6 +87,8 @@ setInterval(function() {
 		}
 	}
 }, 3 * 60 * 1000);
+
+
 function intToIP(int) {
     var part1 = int & 255;
     var part2 = ((int >> 8) & 255);

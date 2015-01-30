@@ -51,7 +51,7 @@
 			var nodes = <%- JSON.stringify(nodes) %>;
 			var map;
 			socket.on('nodenamechange', function(newNode) {	
-				if(!nodes[newNode.ip]) {
+				if(!!nodes[newNode.ip] && !!(nodes[newNode.ip]["overlay"])) {
 					setTimeout((function (overlay) {
 						return function() {
 							overlay.setMap(null);
@@ -73,6 +73,15 @@
 				
 			});
 			
+			function serviceCmd(cmd) {
+				$.post( cmd+"All", function( data ) {
+				  
+				}).done(function() {
+					console.log(cmd + ' services successfully!');
+				  }).fail(function() {
+					console.log('Error '+cmd + ' services!');
+				  });
+			}
 		</script>
 		<script src="/public/js/map.js" type="text/javascript"></script>
 	</body>
