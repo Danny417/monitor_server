@@ -56,12 +56,12 @@ io.on('connection', function (socket) {
 setInterval(function() {
 	console.log("check nodes");
 	for(var key in nodes) {
-		if(nodes[key].time + 5 * 60 * 1000 < (new Date()).getTime()) {
+		if(nodes[key].time + 3 * 60 * 1000 < (new Date()).getTime()) {
 			nodes[key].status = "offline";
 			io.emit('nodenamechange', nodes[key]);
 		}
 	}
-}, 5 * 60 * 1000);
+}, 3 * 60 * 1000);
 function intToIP(int) {
     var part1 = int & 255;
     var part2 = ((int >> 8) & 255);

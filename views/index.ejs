@@ -51,15 +51,20 @@
 			var nodes = <%- JSON.stringify(nodes) %>;
 			var map;
 			socket.on('nodenamechange', function(newNode) {	
+				var draw = true;
 				if(!nodes[newNode.ip]) {
-					setTimeout(function () {
-						nodes[newNode.ip].overlay.setMap(null);
-						nodes[newNode.ip].overlay = null;
-					}, 3000);
-				}
-				var status = nodes[newNode.ip].status;
+					setTimeout((function (overlay) {
+						return function() {
+							overlay.setMap(null);
+							overlay = null;
+						};
+					})(nodes[newNode.ip].overlay), 3000);
+					if(nodes[newNode.ip].status == "offline" && newNode.status!== "offline") {
+						draw = false;
+					}
+				}				
 				nodes[newNode.ip] = newNode;
-				if(status !== "offline" && newNode.status !== "offline") {
+				if(draw) {
 					drawNode(newNode);
 				}
 				var scope = angular.element($('#statusTable')).scope();
