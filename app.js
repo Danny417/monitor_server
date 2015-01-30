@@ -34,7 +34,7 @@ app.post('/stopAll', function(req, res) {
 
 app.post('/startAll', function(req, res) {
 	for(var key in nodes) {
-		var buf = new Buffer("start service");
+		var buf = new Buffer("start monitor");
 		udpServer.send(buf, 0, buf.length, 7777, key);
 	}
 	console.log('start signal sent');
@@ -43,7 +43,7 @@ app.post('/startAll', function(req, res) {
 
 app.post('/pauseAll', function(req, res) {
 	for(var key in nodes) {
-		var buf = new Buffer("stop service");
+		var buf = new Buffer("stop monitor");
 		udpServer.send(buf, 0, buf.length, 7777, key);
 	}
 	console.log('pause signal sent');
