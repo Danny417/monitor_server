@@ -59,7 +59,7 @@
 				}
 				var status = nodes[newNode.ip].status;
 				nodes[newNode.ip] = newNode;
-				if(status === "offline" && newNode.status === "offline") {
+				if(status !== "offline" && newNode.status !== "offline") {
 					drawNode(newNode);
 				}
 				var scope = angular.element($('#statusTable')).scope();
