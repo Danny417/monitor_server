@@ -24,7 +24,7 @@ app.get('/team', function(req, res){
   res.render('team.ejs');
 });
 
-server.listen((process.env.PORT || 3000), function(){
+server.listen((process.env.PORT || 80), function(){
   console.log('listening on *:'+process.env.PORT);
 });
 
