@@ -15,7 +15,9 @@
 					<th>Status</th>
 					<th>Available Space</th>
 					<th>Uptime</th>
+					<th>Service Uptime</th>
 					<th>Average Load</th>
+					<th>Node Location</th>
 				</tr>
 				<tr ng-repeat="node in nodeList">
 					<td>{{ node.hostname }}</td>
@@ -29,9 +31,11 @@
 					  <td ng-if="node.status == 'offline'">
 						<img src="public/img/error-16.png" alt="error">
 					  </td>
-					<td>
-						{{ node.}}
-					</td>
+					<td>{{ node.spaceAvailable}}</td>
+					<td> {{node.systemUptime}}</td>
+					<td>{{node.serviceUptime}}</td>
+					<td>{{node.averageLoads}}</td>
+					<td>{{node.city}}</td>
 				</tr>
 			</table>
 		

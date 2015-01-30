@@ -40,6 +40,7 @@ udpServer.on('message', function (msg, remote) {
 	node.status = "online";
 	node.ip = intToIP(msg.readUInt32LE(0));
 	nodes[node.ip] = node;
+	console.log(node);
 	io.emit('nodenamechange', node);
 });
 
