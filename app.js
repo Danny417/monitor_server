@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
 setInterval(function() {
 	console.log("check nodes");
 	for(var key in nodes) {
-		if(nodes[key].time + 3 * 60 * 1000 < (new Date()).getTime()) {
+		if(nodes[key].time + 3 * 60 * 1000 < (new Date()).getTime() && nodes[key].status !== "offline") {
 			nodes[key].status = "offline";
 			io.emit('nodenamechange', nodes[key]);
 		}

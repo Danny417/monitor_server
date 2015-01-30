@@ -51,7 +51,6 @@
 			var nodes = <%- JSON.stringify(nodes) %>;
 			var map;
 			socket.on('nodenamechange', function(newNode) {	
-				var draw = true;
 				if(!nodes[newNode.ip]) {
 					setTimeout((function (overlay) {
 						return function() {
@@ -59,14 +58,9 @@
 							overlay = null;
 						};
 					})(nodes[newNode.ip].overlay), 3000);
-					if(nodes[newNode.ip].status == "offline" && newNode.status!== "offline") {
-						draw = false;
-					}
 				}				
 				nodes[newNode.ip] = newNode;
-				if(draw) {
-					drawNode(newNode);
-				}
+				drawNode(newNode);
 				var scope = angular.element($('#statusTable')).scope();
 				scope.$apply(function() {
 					scope.nodeList[newNode.ip] = newNode;
