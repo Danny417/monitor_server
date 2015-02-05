@@ -10,6 +10,7 @@
 			<div id="data_map" style="width: 100%; height: 500px;"></div>
 			<table id="statusTable" class="table table-striped table-hover" ng-controller="nodeCtrl">
 				<tr>
+					<th></th>
 					<th>Host Name</th>
 					<th>IP</th>
 					<th>Status</th>
@@ -19,7 +20,8 @@
 					<th>Average Load</th>
 					<th>Node Location</th>
 				</tr>
-				<tr ng-repeat="node in nodeList" ng-class="{'danger':(node.status=='offline')}">>
+				<tr ng-repeat="node in nodeList" ng-class="{'danger':(node.status=='offline')}">
+					<td>{{$index}}</td>
 					<td>{{ node.hostname }}</td>
 					<td>{{ node.ip }}</td>
 					<td ng-if="node.status == 'online'">
