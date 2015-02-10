@@ -10,6 +10,7 @@ var express = require('express'),
     bl = require('bl'),
     dgram = require('dgram'),
     udpServer = dgram.createSocket('udp4'),
+    nodelist = require('./public/nodes.js'),
     nodes = {
     };
 
@@ -34,8 +35,10 @@ app.post('/command', function(req, res) {
       santizingResult = JSON.parse(sanitizer.sanitize(JSON.stringify(req.body)));
   for(key in nodes) {
     if (nodes.hasOwnProperty(key)) {
-      buf = new Buffer(santizingResult.cmd);
-      udpServer.send(buf, 0, buf.length, config.UDPPORT_SEND, key);
+      if(!!nodes[key].ip) {
+        buf = new Buffer(santizingResult.cmd);
+        udpServer.send(buf, 0, buf.length, config.UDPPORT_SEND, nodes[key].ip);
+      }
     }
   }
   res.send("complete");
@@ -62,6 +65,8 @@ udpServer.on('message', function (data, remote) {
   'use strict';
   console.log('from : ' + remote.address + ':' + remote.port);
   console.log(data.toString('utf8', 16));
+  var nodes = JSON.parse(data.toString('utf8', 16));
+  io.emit('nodenamechange', nodes);
 /*  var msg = JSON.parse(data.toString('utf8', 16));
   if(!msg['error']) {
 

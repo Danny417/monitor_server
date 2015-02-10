@@ -20,17 +20,17 @@
 					<th>Average Load</th>
 					<th>Node Location</th>
 				</tr>
-				<tr ng-repeat="node in nodeList" ng-class="{'danger':(node.status=='offline')}">
+				<tr ng-repeat="node in nodeList" ng-class="{'danger':(node.ping=='false')}">
 					<td>{{$index}}</td>
 					<td>{{ node.hostname }}</td>
 					<td>{{ node.ip }}</td>
-					<td ng-if="node.status == 'online'">
+					<td ng-if="node.ping == 'true'">
 						<img src="public/img/ok-18.png" alt="ok">
 					  </td>
-					  <td ng-if="node.status == 'warning'">
+					  <td ng-if="node.ping == 'warning'">
 						<img src="public/img/warning-16.png" alt="warning">
 					  </td>
-					  <td ng-if="node.status == 'offline'">
+					  <td ng-if="node.ping == 'false'">
 						<img src="public/img/error-16.png" alt="error">
 					  </td>
 					<td>{{ node.spaceAvailable}} MBytes</td>
@@ -52,21 +52,24 @@
 			var socket = io();
 			var nodes = <%- JSON.stringify(nodes) %>;
 			var map;
-			socket.on('nodenamechange', function(newNode) {
-				if(!!nodes[newNode.ip] && !!(nodes[newNode.ip]["overlay"])) {
-					setTimeout((function (overlay) {
-						return function() {
-							overlay.setMap(null);
-							overlay = null;
-						};
-					})(nodes[newNode.ip].overlay), 3000);
+			socket.on('nodenamechange', function(newNodes) {
+				console.log(newNodes);
+				for(var key in newNodes) {
+					if(!!nodes[newNodes[key].hostname] && !!(nodes[newNodes[key].hostname]["overlay"])) {
+						setTimeout((function (overlay) {
+							return function() {
+								overlay.setMap(null);
+								overlay = null;
+							};
+						})(nodes[newNodes[key].hostname].overlay), 3000);
+					}
+					nodes[newNodes[key].hostname] = newNodes[key][key];
+					drawNode(newNodes[key]);
+					var scope = angular.element($('#statusTable')).scope();
+					scope.$apply(function() {
+						scope.nodeList[newNodes[key].hostname] = newNodes[key];
+					});
 				}
-				nodes[newNode.ip] = newNode;
-				drawNode(newNode);
-				var scope = angular.element($('#statusTable')).scope();
-				scope.$apply(function() {
-					scope.nodeList[newNode.ip] = newNode;
-				});
 			});
 
 			var app = angular.module('app', []);
