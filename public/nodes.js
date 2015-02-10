@@ -1,4 +1,4 @@
-var nodelist = ["127.0.0.1",
+var nodelist = [
 	"ple01.fc.univie.ac.at",
 	"onelab1.info.ucl.ac.be",
 	"onelab3.info.ucl.ac.be",

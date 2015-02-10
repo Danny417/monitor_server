@@ -33,15 +33,15 @@ app.get('/team', function(req, res){
 
 app.post('/command', function(req, res) {
   'use strict';
-  var key, buf;
+  var key, buf = new Buffer(req.body.cmd);
   for(key in nodes) {
     if (nodes.hasOwnProperty(key)) {
       if(!!nodes[key].ip) {
-        buf = new Buffer(req.body.cmd);
         udpServer.send(buf, 0, buf.length, config.UDPPORT_SEND, key);
       }
     }
   }
+  udpServer.send(buf, 0, buf.length, config.UDPPORT_SEND, '127.0.0.1');
   res.send("complete");
 });
 
