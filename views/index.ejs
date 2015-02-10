@@ -79,8 +79,8 @@
 			});
 
 			function update() {
-				$.post( 'command', function() {
-
+				$.post( 'update', function(data) {
+					console.log(data);
 				}).done(function(data) {
 					console.log(data);
 				}).fail(function() {
